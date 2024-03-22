@@ -1,19 +1,19 @@
-var roleHarvester = require('role.harvester');
-var roleUpgrader = require('role.upgrader');
-var roleBuilder = require('role.builder');
-var roleMiner = require('role.miner');
-var roleTransferer = require('role.transferer');
-var roleRepairer = require('role.repairer');
-var spawnCreeps = require('spawn_creeps');
-var roleWallRepairer = require('role.wallrepairer');
-var roleShuttle = require('role.shuttle');
-var roleRecycle = require('role.recycle');
-var roleLDHarvester = require('role.ldharvester');
-var roleLDMiner = require('role.ldminer');
-var Traveler = require('traveler');
-var roomLinks = require('roomlinks');
+import roleHarvester from "./role.harvester";
+import roleUpgrader from "./role.upgrader";
+import roleBuilder from "./role.builder";
+import roleMiner from "./role.miner";
+import roleTransferer from "./role.transferer";
+import roleRepairer from "./role.repairer";
+import spawnCreeps from "./spawn_creeps";
+import roleWallRepairer from "./role.wallrepairer";
+import roleShuttle from "./role.shuttle";
+import roleRecycle from "./role.recycle";
+import roleLDHarvester from "./role.ldharvester";
+import roleLDMiner from "./role.ldminer";
+import Traveler from "./traveler";
+import roomLinks from "./roomlinks";
 
-module.exports.loop = function () {
+export function loop() {
 
     for(var name in Memory.creeps) {
         if(!Game.creeps[name]) {

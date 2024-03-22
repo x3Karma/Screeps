@@ -1,5 +1,5 @@
 const {Helpers} = require('./utilities');
-var roleUpgrader = require('role.upgrader');
+var roleUpgrader = require('./role.upgrader');
 
 function buildSites(creep, room)
 {
