@@ -1,4 +1,6 @@
-module.exports = {
+import {RoomLinks} from './roomlinks';
+
+const roleRepairer = {
 	run: function(creep) 
 	{
 		// if this room has no repairer, assign this creep to be the repairer
@@ -114,3 +116,5 @@ module.exports = {
 		}
 	}
 };
+
+export default roleRepairer;
