@@ -71,8 +71,6 @@ export function roomLinks()
 		
 		var spawn = Game.spawns['My First Home'];
 
-		const roomLink = new RoomLinks(room);
-
 		let isHome = ( room == Game.spawns['My First Home'].room ) ? true : false;
 		if ( !isHome )
 		{

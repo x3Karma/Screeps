@@ -16,8 +16,8 @@ var roleMiner = {
 		} 
 		else if ( creep.memory.mining == false && creep.memory.moving == false ) // If the creep doesn't already has a mining spot and is not moving to one
 		{
-			if (creep.room.name != 'W8N2') {
-				return creep.travelTo(new RoomPosition(25, 25, 'W8N2'));
+			if (creep.room.name != 'W7N3') {
+				return creep.travelTo(new RoomPosition(25, 25, 'W7N3'));
 			}
 
 			// Find the nearest energy source

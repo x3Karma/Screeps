@@ -6,9 +6,9 @@ function pickUpEnergy(creep) {
 	if ( creep.memory.target == undefined || creep.memory.target == null )
 	{
 		// go to the room above
-		if ( creep.room.name != 'W8N2' ) {
+		if ( creep.room.name != 'W7N3' ) {
 			console.log( creep.name + ' is heading up to recover energy.')
-			creep.travelTo(new RoomPosition(7, 47, 'W8N2'));
+			creep.travelTo(new RoomPosition(7, 47, 'W7N3'));
 			return;
 		}
 		
@@ -55,8 +55,8 @@ function pickUpEnergy(creep) {
 	else // the creep has a target. let's pick up from it
 	{
 
-		if ( creep.room.name != 'W8N2' ) {
-			creep.travelTo(new RoomPosition(7, 47, 'W8N2'));
+		if ( creep.room.name != 'W7N3' ) {
+			creep.travelTo(new RoomPosition(7, 47, 'W7N3'));
 			return;
 		}
 

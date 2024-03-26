@@ -31,9 +31,9 @@ const roleController = {
 			}
 		} */
 
-        if ( creep.claimController(Game.getObjectById('7f3b077240eef72')) == ERR_NOT_IN_RANGE )
+        if ( creep.reserveController(Game.getObjectById('a2db077296e87b8')) == ERR_NOT_IN_RANGE )
         {
-					creep.travelTo(Game.getObjectById('7f3b077240eef72'));
+					creep.travelTo(Game.getObjectById('a2db077296e87b8'));
 		}
     }
 }

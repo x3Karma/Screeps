@@ -123,6 +123,10 @@ StructureSpawn.prototype.determineBodyParts = function ( role, room )
 		{
 			return Helpers.chooseBodyparts( room.energyCapacityAvailable, [CLAIM, MOVE] );
 		}
+		else if ( role === 'scout' )
+		{
+			return Helpers.chooseBodyparts( room.energyCapacityAvailable, [MOVE] );
+		}
 	}
 	else
 	{
@@ -190,11 +194,23 @@ StructureSpawn.prototype.attemptSpawn = function ( spawn, room )
 			var role = spawn.memory.queue[0];
 			var body = spawn.determineBodyParts( role, room );
 			var newName = role + Game.time;
-			const result = spawn.spawnCreep( body, newName, { memory: { role: role } } );
+			const result = spawn.spawnCreep( body, newName, { memory: { role: role, base: spawn.id } } );
 			console.log('Spawning new ' + role + ': ' + newName + ' with body parts ' + body + ' with result: ' + result);
 			spawn.memory.queue = _.drop( spawn.memory.queue, 1 );
 		}
 	}
+}
+
+// determine if the creep is dying, shamelessly referenced from International Bot
+Creep.prototype.isDying = function ()
+{
+        // Stop if creep is spawning
+	if (this.spawning) return false
+
+	if (this.ticksToLive > this.body.length * CREEP_SPAWN_TIME) return false
+
+	return true
+    
 }
 
 // determine if the spawn needs energy currently
