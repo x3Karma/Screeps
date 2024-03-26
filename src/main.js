@@ -97,7 +97,7 @@ export function loop() {
 			creep.say('I am blocking!')
 		} */
 
-		//Game.creeps['repairer56686165'].travelTo( new RoomPosition(25,25, 'W42S41'));
+		//Game.creeps['repairer56686165'].travelTo( new RoomPosition(25,25, 'W8N2'));
 
 		// if creep is at edge of room, move to center
 		/* if ( creep.pos.x == 0 || creep.pos.x == 49 || creep.pos.y == 0 || creep.pos.y == 49 )

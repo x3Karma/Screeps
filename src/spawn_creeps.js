@@ -85,22 +85,52 @@ StructureSpawn.prototype.determineBestCreepRole = function ( spawn, room )
 
 StructureSpawn.prototype.determineBodyParts = function ( role, room )
 {
-    // if its a harvester, it needs at least 1 work, 1 move, and 1 carry
-    if ( role === 'harvester' || role === 'repairer' || role === 'wallrepairer' || role === 'builder' || role === 'upgrader' )
+    // if its a harvester only
+    if ( role === 'harvester' )
     {
-        return Helpers.chooseBodyparts( room.energyCapacityAvailable, [WORK,MOVE,CARRY,MOVE,WORK,MOVE,CARRY,MOVE,WORK,MOVE,CARRY,MOVE] );
+        return Helpers.chooseBodyparts( room.energyCapacityAvailable, [WORK,MOVE,CARRY] );
     }
 
-    // if its a miner, it needs at least 2 work, and 1 move, since it will stay mining at the source forever
-    else if ( role === 'miner' || role === 'ldminer' )
+    // if there's more than 6 creeps
+    if ( Object.keys(Game.creeps).length > 6 )
     {
-        return Helpers.chooseBodyparts( room.energyCapacityAvailable, [WORK,WORK,MOVE,WORK,WORK,MOVE,WORK,WORK,MOVE] );
+        // if its a worker, it needs at least 1 work, 1 move, and 1 carry
+        if ( role === 'repairer' || role === 'wallrepairer' || role === 'builder' || role === 'upgrader' )
+        {
+            return Helpers.chooseBodyparts( room.energyCapacityAvailable, [WORK,MOVE,CARRY,MOVE,WORK,MOVE,CARRY,MOVE,WORK,MOVE,CARRY,MOVE] );
+        }
+    
+        // if its a miner, it needs at least 2 work, and 1 move, since it will stay mining at the source forever
+        else if ( role === 'miner' || role === 'ldminer' )
+        {
+            return Helpers.chooseBodyparts( room.energyCapacityAvailable, [WORK,WORK,MOVE,WORK,WORK,MOVE,WORK,WORK,MOVE] );
+        }
+    
+        // if its a transferer, it needs at least 1 carry and 1 move, it won't be working
+        else if ( role === 'transferer' || role === 'shuttle' || role === 'ldharvester' )
+        {
+            return Helpers.chooseBodyparts( room.energyCapacityAvailable, [CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE] );
+        }
     }
-
-    // if its a transferer, it needs at least 1 carry and 1 move, it won't be working
-    else if ( role === 'transferer' || role === 'shuttle' || role === 'ldharvester' )
+    else
     {
-        return Helpers.chooseBodyparts( room.energyCapacityAvailable, [CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE] );
+        // if its a worker, it needs at least 1 work, 1 move, and 1 carry
+        if ( role === 'repairer' || role === 'wallrepairer' || role === 'builder' || role === 'upgrader' )
+        {
+            return Helpers.chooseBodyparts( room.energyCapacityAvailable, [WORK,MOVE,CARRY,MOVE] );
+        }
+    
+        // if its a miner, it needs at least 2 work, and 1 move, since it will stay mining at the source forever
+        else if ( role === 'miner' || role === 'ldminer' )
+        {
+            return Helpers.chooseBodyparts( room.energyCapacityAvailable, [WORK,WORK,MOVE] );
+        }
+    
+        // if its a transferer, it needs at least 1 carry and 1 move, it won't be working
+        else if ( role === 'transferer' || role === 'shuttle' || role === 'ldharvester' )
+        {
+            return Helpers.chooseBodyparts( room.energyCapacityAvailable, [CARRY,MOVE,CARRY,MOVE] );
+        }
     }
 
 }

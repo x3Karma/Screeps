@@ -10,7 +10,7 @@ module.exports = {
         else if ( creep.room.memory.repairer != creep.id )
         {
             // find other rooms that need repairers
-            for ( roomName in Game.rooms )
+            for ( let roomName in Game.rooms )
             {
                 var room = Game.rooms[roomName];
 
@@ -66,7 +66,7 @@ module.exports = {
         else if ( creep.memory.repairing && creep.store[RESOURCE_ENERGY] > 0 ) 
         {
             // prioritize non-wall ramparts first before anything else
-            for ( roomName in Game.rooms )
+            for ( let roomName in Game.rooms )
             {
                 var room = Game.rooms[roomName];
                 if ( room.memory.repairer != creep.id )

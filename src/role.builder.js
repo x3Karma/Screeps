@@ -15,10 +15,10 @@ function buildSites(creep, room)
     else 
     {
         // if not doing anything just be an upgrader at home world
-        if (creep.room.name != 'W42S42')
+        if (creep.room.name != 'W8N3')
         {
             // go back to home world
-            creep.travelTo(new RoomPosition(7, 47, 'W42S42'));
+            creep.travelTo(new RoomPosition(7, 47, 'W8N3'));
         }
         else
             roleUpgrader.run(creep);
@@ -51,7 +51,7 @@ var roleBuilder =
         if ( creep.memory.building ) 
         {
             // start to look for other rooms as well
-            for ( roomName in Game.rooms )
+            for ( let roomName in Game.rooms )
             {
                 var room = Game.rooms[roomName];
                 // if this room has resources pick it up
@@ -63,10 +63,10 @@ var roleBuilder =
             }
             
             // if no sites to build, go back to home room and run roleUpgrader
-            if (creep.room.name != 'W42S42')
+            if (creep.room.name != 'W8N3')
             {
                 // go back to home world
-                creep.travelTo(new RoomPosition(7, 47, 'W42S42'));
+                creep.travelTo(new RoomPosition(7, 47, 'W8N3'));
             }
             else
                 roleUpgrader.run(creep);
@@ -102,7 +102,7 @@ var roleBuilder =
         }
         else if ( creep.memory.pickup = true && creep.memory.building == false ) 
         {
-            for ( roomName in Game.rooms )
+            for ( let roomName in Game.rooms )
             {
                 var room = Game.rooms[roomName];
                 var storages = room.find(FIND_STRUCTURES, { filter: (structure) => { return (structure.structureType == STRUCTURE_CONTAINER || structure.structureType == STRUCTURE_STORAGE) && structure.store.getUsedCapacity(RESOURCE_ENERGY) > 0; } });

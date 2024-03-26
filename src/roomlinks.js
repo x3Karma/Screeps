@@ -51,7 +51,7 @@ class RoomLinks
 
 module.exports = function() 
 {
-    for ( roomName in Game.rooms )
+    for ( let roomName in Game.rooms )
     {
         var room = Game.rooms[roomName];
 
@@ -63,13 +63,14 @@ module.exports = function()
         
         if ( room.memory.repairer == undefined )
             room.memory.repairer = null;
+        
+        var spawn = Game.spawns['My First Home'];
 
         let isHome = ( room == Game.spawns['My First Home'].room ) ? true : false;
         if ( !isHome )
         {
             var creeps = room.find(FIND_MY_CREEPS);
             var sources = room.find(FIND_SOURCES);
-            var spawn = Game.spawns['My First Home'];
 
             var ldminers = _.filter(creeps,function(creep){ if(creep.memory.role == "ldminer") return true; return false;}).length;
             var ldharvesters = _.filter(creeps,function(creep){ if(creep.memory.role == "ldharvester") return true; return false;}).length;
