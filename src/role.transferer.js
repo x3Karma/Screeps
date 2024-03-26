@@ -13,19 +13,24 @@ function pickUpEnergy(creep) {
 
 		Helpers.findDroppedResources(creep);
 
-		if (container) {
-		   if (creep.withdraw(container, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-			   creep.memory.target = container.id;
-			   creep.travelTo(container, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 5});
-		   }
+		if (container) 
+		{
+			if (creep.withdraw(container, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) 
+			{
+				creep.memory.target = container.id;
+				creep.travelTo(container, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 5});
+			}
 		}
-		 if (tombstone) {
-			if (creep.withdraw(tombstone, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+		if (tombstone) 
+		{
+			if (creep.withdraw(tombstone, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) 
+			{
 				creep.memory.target = tombstone.id;
 				creep.travelTo(tombstone, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 5});
 			}
-		 }
-		 if (ruins) {
+		}
+		if (ruins) 
+		{
 			// loop through the array
 			for (let i = 0; i < ruins.length; i++ ) 
 			{
@@ -57,23 +62,32 @@ function pickUpEnergy(creep) {
 		}
 
 		// check what type of structure it is and use the corresponding pickup method
-		if (target instanceof Tombstone || target instanceof Ruin) {
+		if (target instanceof Tombstone || target instanceof Ruin) 
+		{
 			const result = creep.withdraw(target, RESOURCE_ENERGY);
-			if ( result == ERR_NOT_IN_RANGE ) {
+			if ( result == ERR_NOT_IN_RANGE ) 
+			{
 				creep.travelTo(target, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 5});
 			}
 			else if ( result == ERR_NOT_ENOUGH_RESOURCES || target.store.getUsedCapacity() == 0 )
 				creep.memory.target = null;
-		} else if (target instanceof Resource ) {
-			if (creep.pickup(target) == ERR_NOT_IN_RANGE) {
+		} 
+		else if (target instanceof Resource ) 
+		{
+			if (creep.pickup(target) == ERR_NOT_IN_RANGE) 
+			{
 				creep.travelTo(target, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 5});
 			}
-		} else if (target instanceof StructureContainer) {
+		} 
+		else if ( target instanceof StructureContainer || target instanceof StructureStorage ) 
+		{
 			const result = creep.withdraw(target, RESOURCE_ENERGY);
-			if (result == ERR_NOT_IN_RANGE) {
+			if (result == ERR_NOT_IN_RANGE) 
+			{
 				creep.travelTo(target, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 5});
 			}
-			else if (result == ERR_NOT_ENOUGH_RESOURCES) {
+			else if (result == ERR_NOT_ENOUGH_RESOURCES) 
+			{
 				creep.memory.target = null;
 			}
 		}
@@ -106,13 +120,17 @@ function transferEnergyToSpawnExtensions( creep )
 		const target = creep.pos.findClosestByPath(targets);
 	
 		// If a target is found, transfer the resources
-		if (target) {
-			if (creep.transfer(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+		if (target) 
+		{
+			if (creep.transfer(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) 
+			{
 				creep.travelTo(target, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 5});
 				creep.say("transfer!");
 				creep.memory.target = target.id;
 			}
-		} else {
+		} 
+		else 
+		{
 			// If no target is found, refill builders
 			var builders = creep.room.find(FIND_MY_CREEPS, {
 				filter: (creep) => {
@@ -124,19 +142,22 @@ function transferEnergyToSpawnExtensions( creep )
 			});
 	
 			// found builders
-			if (builders) {
+			if (builders) 
+			{
 				// filter to path to closest builder and transfer energy
 				const builder = creep.pos.findClosestByPath(builders);
 	
 				// try to target this builder
 				// if another transferer is targeting this builder, find another target
-				for (let i = 0; i < builders.length; i++ ) {
+				for (let i = 0; i < builders.length; i++ ) 
+				{
 					if (creep.memory.target == builders[i].id) {
 						continue;
 					}
 				}
 	
-				if (creep.transfer(builder, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+				if (creep.transfer(builder, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) 
+				{
 					creep.travelTo(builder, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 5});
 					creep.say("trying to move");
 					creep.memory.target = builder.id;
@@ -170,7 +191,8 @@ function transferEnergyToSpawnExtensions( creep )
 		if (targets)
 		{
 			const target = creep.pos.findClosestByPath(targets);
-			if (creep.transfer(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+			if (creep.transfer(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) 
+			{
 				creep.travelTo(target, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 5});
 				creep.say("transfer!");
 				creep.memory.target = target.id;
@@ -187,7 +209,8 @@ function transferEnergyToSpawnExtensions( creep )
 		const result = creep.transfer(target, RESOURCE_ENERGY);
 
 		// If a target is found, transfer the resources
-		if (result == ERR_NOT_IN_RANGE) {
+		if (result == ERR_NOT_IN_RANGE) 
+		{
 			creep.travelTo(target, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 5});
 		}
 		else if (result == ERR_FULL)
@@ -197,7 +220,8 @@ function transferEnergyToSpawnExtensions( creep )
 }
 
 const roleTransferer = {
-	run: function(creep) {
+	run: function(creep) 
+	{
 
 		// If the creep is not picking up, set it to true
 		if ( creep.memory.pickingUp == undefined ) {
