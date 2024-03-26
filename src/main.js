@@ -15,12 +15,12 @@ import roomLinks from "./roomlinks";
 
 export function loop() {
 
-    for(var name in Memory.creeps) {
-        if(!Game.creeps[name]) {
-            delete Memory.creeps[name];
-            console.log('Clearing non-existing creep memory:', name);
-        }
-    }
+	for(var name in Memory.creeps) {
+		if(!Game.creeps[name]) {
+			delete Memory.creeps[name];
+			console.log('Clearing non-existing creep memory:', name);
+		}
+	}
 
 	let spawn = Game.spawns['My First Home'];
 	let room = spawn.room;
@@ -40,26 +40,26 @@ export function loop() {
 	//Game.spawns['My First Home'].spawnCreep([WORK,WORK,CARRY,MOVE,MOVE], 'Builder' + Game.time.toString() , {memory: {role: 'builder'}});
 	// spawn.spawnCreep([WORK,MOVE,CARRY], 'LDHarvester1', {memory: {role: 'ldharvester'}});
 	
-    if ( spawn.spawning ) { 
-        var spawningCreep = Game.creeps[spawn.spawning.name];
-        spawn.room.visual.text(
-            '🛠️' + spawningCreep.memory.role,
-            spawn.pos.x + 1, 
-            spawn.pos.y, 
-            {align: 'left', opacity: 0.8});
-    }
+	if ( spawn.spawning ) { 
+		var spawningCreep = Game.creeps[spawn.spawning.name];
+		spawn.room.visual.text(
+			'🛠️' + spawningCreep.memory.role,
+			spawn.pos.x + 1, 
+			spawn.pos.y, 
+			{align: 'left', opacity: 0.8});
+	}
 
-    for(var name in Game.creeps) {
-        var creep = Game.creeps[name];
-        if(creep.memory.role == 'harvester') {
-            roleHarvester.run(creep);
-        }
-        if(creep.memory.role == 'upgrader') {
-            roleUpgrader.run(creep);
-        }
-        if(creep.memory.role == 'builder') {
-            roleBuilder.run(creep);
-        }
+	for(var name in Game.creeps) {
+		var creep = Game.creeps[name];
+		if(creep.memory.role == 'harvester') {
+			roleHarvester.run(creep);
+		}
+		if(creep.memory.role == 'upgrader') {
+			roleUpgrader.run(creep);
+		}
+		if(creep.memory.role == 'builder') {
+			roleBuilder.run(creep);
+		}
 		if ( creep.memory.role == 'miner' ) {
 			roleMiner.run(creep);
 		}
@@ -104,7 +104,7 @@ export function loop() {
 		{
 			creep.travelTo(new RoomPosition(25,25,creep.room.name));
 		} */
-    }
+	}
 
 	// if my spawn is within range of an enemy, turn on safe mode
 	if ( spawn.pos.findInRange(FIND_HOSTILE_CREEPS, 5).length > 0 )
@@ -114,10 +114,10 @@ export function loop() {
 
 	// check for sources that are not being harvested
 	roomLinks()
-    
-    // auto attack tower
+	
+	// auto attack tower
 	var towers = room.find(FIND_MY_STRUCTURES, {filter: {structureType: STRUCTURE_TOWER}});
-    for (let tower of towers)
+	for (let tower of towers)
 	{
 		var hostiles = tower.room.find( FIND_HOSTILE_CREEPS )
 		if ( hostiles.length > 0 )
@@ -131,5 +131,5 @@ export function loop() {
 			const result = tower.repair( Game.getObjectById( tower.room.memory.repairables[0] ) )
 		}
 	}
-    
+	
 }
