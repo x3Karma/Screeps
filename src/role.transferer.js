@@ -9,7 +9,7 @@ function pickUpEnergy(creep) {
 		// const droppedSource = creep.pos.findClosestByPath(FIND_DROPPED_RESOURCES);
 		const tombstone = creep.pos.findClosestByPath(FIND_TOMBSTONES);
 		const ruins = creep.room.find(FIND_RUINS);
-		const container = creep.pos.findClosestByPath(FIND_STRUCTURES, { filter: (s) => ( s.structureType == STRUCTURE_CONTAINER || s.structureType == STRUCTURE_STORAGE ) && s.store[RESOURCE_ENERGY] > 0 });
+		const container = creep.pos.findClosestByPath(FIND_STRUCTURES, { filter: (s) => ( s.structureType == STRUCTURE_CONTAINER || s.structureType == STRUCTURE_STORAGE ) && s.store.getUsedCapacity(RESOURCE_ENERGY) > 0 });
 
 		Helpers.findDroppedResources(creep);
 
