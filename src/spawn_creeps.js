@@ -63,12 +63,12 @@ StructureSpawn.prototype.determineBestCreepRole = function ( spawn, room )
 		{
 			creepToSpawn = 'repairer';
 		} */
-		else if ( wallrepairers.length < 2 && ( room.find(STRUCTURE_WALL).length > 0 || room.find(STRUCTURE_RAMPART).length > 0 ) ) // we can have a wallrepairer to start repairing walls
+		else if ( wallrepairers.length < 2 && ( room.find(FIND_STRUCTURES, { filter: (s) => s.structureType === STRUCTURE_WALL || s.structureType === STRUCTURE_RAMPART }).length > 0 ) ) // we can have a wallrepairer to start repairing walls
 		{
 			creepToSpawn = 'wallrepairer';
 		}
 		// if the long distance miner is about to die and we have enough energy, spawn a new one
-		else if ( ldminers.length < 1 )
+		else if ( ldminers.length < 4 )
 		{
 			creepToSpawn = 'ldminer';
 		}
@@ -76,6 +76,11 @@ StructureSpawn.prototype.determineBestCreepRole = function ( spawn, room )
 		{
 			creepToSpawn = 'ldharvester';
 		}
+		/* else if ( room.energyAvailable >= 650 )
+		{
+			creepToSpawn = 'controller';
+		} */
+
 		return creepToSpawn; // 'none' no creeps to spawn
 	}   
 	else if ( room.energyAvailable < 250 )
@@ -105,13 +110,18 @@ StructureSpawn.prototype.determineBodyParts = function ( role, room )
 		// if its a miner, it needs at least 2 work, and 1 move, since it will stay mining at the source forever
 		else if ( role === 'miner' || role === 'ldminer' )
 		{
-			return Helpers.chooseBodyparts( room.energyCapacityAvailable, [WORK,WORK,MOVE,WORK,WORK,MOVE,WORK,WORK,MOVE] );
+			return Helpers.chooseBodyparts( room.energyCapacityAvailable, [WORK,WORK,MOVE,WORK,WORK,MOVE,WORK,MOVE] );
 		}
 	
 		// if its a transferer, it needs at least 1 carry and 1 move, it won't be working
 		else if ( role === 'transferer' || role === 'shuttle' || role === 'ldharvester' )
 		{
 			return Helpers.chooseBodyparts( room.energyCapacityAvailable, [CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE] );
+		}
+
+		else if ( role === 'controller' )
+		{
+			return Helpers.chooseBodyparts( room.energyCapacityAvailable, [CLAIM, MOVE] );
 		}
 	}
 	else

@@ -35,7 +35,7 @@ module.exports = {
 		{
 			// prioritize non-wall ramparts first before anything else
 			const structure = creep.pos.findClosestByPath(FIND_STRUCTURES, {
-				filter: (s) => (s.structureType == STRUCTURE_WALL || s.structureType == STRUCTURE_RAMPART) && s.hits < 100000
+				filter: (s) => (s.structureType == STRUCTURE_WALL || s.structureType == STRUCTURE_RAMPART) && s.hits < 300000
 			});
 
 			if (structure) {

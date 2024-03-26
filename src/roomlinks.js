@@ -138,7 +138,7 @@ export function roomLinks()
 		}
 		
 		var sites = room.find(FIND_MY_CONSTRUCTION_SITES);
-		var repairables = room.find(FIND_STRUCTURES, { filter: (s) => ( s.hits < s.hitsMax ) && ( s.structureType != STRUCTURE_WALL || s.structureType != STRUCTURE_RAMPART ) });
+		var repairables = room.find(FIND_STRUCTURES, { filter: (s) => ( s.hits < s.hitsMax ) && ( s.structureType != STRUCTURE_WALL && s.structureType != STRUCTURE_RAMPART ) });
 		var walls = room.find(FIND_STRUCTURES, { filter: (s) => ( s.hits < 300000 ) && ( s.structureType == STRUCTURE_WALL || s.structureType == STRUCTURE_RAMPART ) });
 		// if no sites are found, clear the array
 		if ( sites.length == 0 )

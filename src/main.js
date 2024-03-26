@@ -10,6 +10,7 @@ import roleShuttle from "./role.shuttle";
 import roleRecycle from "./role.recycle";
 import roleLDHarvester from "./role.ldharvester";
 import roleLDMiner from "./role.ldminer";
+import roleController from "./role.controller";
 import Traveler from "./traveler";
 import { roomLinks, RoomLinks } from "./roomlinks";
 
@@ -23,31 +24,57 @@ export function loop() {
 		}
 	}
 
-	let spawn = Game.spawns['My First Home'];
-	let room = spawn.room;
-	let role = spawn.determineBestCreepRole( spawn, room );
-
-	if ( !(role === 'no energy') && !(role === 'none') && !spawn.spawning ) 
+	for ( let spawnName in Game.spawns )
 	{
-		spawn.pushToQueue( spawn, room, role );
-	}
-
-	if ( spawn.memory.queue == undefined )
-		spawn.memory.queue = [];
-
-	if ( spawn.memory.queue.length > 0 && !spawn.spawning )
-		spawn.attemptSpawn( spawn, room );
-	//Game.spawns['My First Home'].spawnCreep([CARRY,CARRY,MOVE,MOVE], 'Mover3', {memory: {role: 'transferer'}});
-	//Game.spawns['My First Home'].spawnCreep([WORK,WORK,CARRY,MOVE,MOVE], 'Builder' + Game.time.toString() , {memory: {role: 'builder'}});
-	// spawn.spawnCreep([WORK,MOVE,CARRY], 'LDHarvester1', {memory: {role: 'ldharvester'}});
+		let spawn = Game.spawns[spawnName];
+		let room = spawn.room;
+		let role = spawn.determineBestCreepRole( spawn, room );
 	
-	if ( spawn.spawning ) { 
-		var spawningCreep = Game.creeps[spawn.spawning.name];
-		spawn.room.visual.text(
-			'🛠️' + spawningCreep.memory.role,
-			spawn.pos.x + 1, 
-			spawn.pos.y, 
-			{align: 'left', opacity: 0.8});
+		if ( !(role === 'no energy') && !(role === 'none') && !spawn.spawning ) 
+		{
+			spawn.pushToQueue( spawn, room, role );
+		}
+	
+		if ( spawn.memory.queue == undefined )
+			spawn.memory.queue = [];
+	
+		if ( spawn.memory.queue.length > 0 && !spawn.spawning )
+			spawn.attemptSpawn( spawn, room );
+		//Game.spawns['My First Home'].spawnCreep([CARRY,CARRY,MOVE,MOVE], 'Mover3', {memory: {role: 'transferer'}});
+		//Game.spawns['My First Home'].spawnCreep([WORK,WORK,CARRY,MOVE,MOVE], 'Builder' + Game.time.toString() , {memory: {role: 'builder'}});
+		// spawn.spawnCreep([WORK,MOVE,CARRY], 'LDHarvester1', {memory: {role: 'ldharvester'}});
+		
+		if ( spawn.spawning ) { 
+			var spawningCreep = Game.creeps[spawn.spawning.name];
+			spawn.room.visual.text(
+				'🛠️' + spawningCreep.memory.role,
+				spawn.pos.x + 1, 
+				spawn.pos.y, 
+				{align: 'left', opacity: 0.8});
+		}
+
+		// auto attack tower
+		var towers = room.find(FIND_MY_STRUCTURES, {filter: {structureType: STRUCTURE_TOWER}});
+		for (let tower of towers)
+		{
+			var hostiles = tower.room.find( FIND_HOSTILE_CREEPS )
+			if ( hostiles.length > 0 )
+			{
+				tower.attack( hostiles[0] )
+				break;
+			}
+
+			if ( tower.room.memory.repairables.length > 0 )
+			{
+				const result = tower.repair( Game.getObjectById( tower.room.memory.repairables[0] ) )
+			}
+		}
+
+		// if my spawn is within range of an enemy, turn on safe mode
+		if ( spawn.pos.findInRange(FIND_HOSTILE_CREEPS, 2).length > 0 )
+		{
+			spawn.room.controller.activateSafeMode();
+		}
 	}
 
 	for (var name in Game.creeps) {
@@ -86,6 +113,9 @@ export function loop() {
 			case 'ldminer':
 				roleLDMiner.run(creep);
 				break;
+			case 'controller':
+				roleController.run(creep);
+				break;
 		}
 
 		/* if ( creep.name == 'Upgrader56629013' )
@@ -109,30 +139,6 @@ export function loop() {
 		} */
 	}
 
-	// if my spawn is within range of an enemy, turn on safe mode
-	if ( spawn.pos.findInRange(FIND_HOSTILE_CREEPS, 5).length > 0 )
-	{
-		spawn.room.controller.activateSafeMode();
-	}
-
 	// check for sources that are not being harvested
 	roomLinks()
-	
-	// auto attack tower
-	var towers = room.find(FIND_MY_STRUCTURES, {filter: {structureType: STRUCTURE_TOWER}});
-	for (let tower of towers)
-	{
-		var hostiles = tower.room.find( FIND_HOSTILE_CREEPS )
-		if ( hostiles.length > 0 )
-		{
-			tower.attack( hostiles[0] )
-			break;
-		}
-
-		if ( tower.room.memory.repairables.length > 0 )
-		{
-			const result = tower.repair( Game.getObjectById( tower.room.memory.repairables[0] ) )
-		}
-	}
-	
 }
