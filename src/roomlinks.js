@@ -8,7 +8,7 @@ Goal:
 
 // create a new class called RoomLinks
 // this class will be responsible for saving all important memory in a room
-class RoomLinks
+export class RoomLinks
 {
 	constructor(room)
 	{
@@ -16,7 +16,6 @@ class RoomLinks
 		this.room.memory.sources = this.room.memory.sources || [];
 		this.room.memory.sites = this.room.memory.sites || [];
 		this.room.memory.repairer = this.room.memory.repairer || null;
-		this.room.memory.home = Game.spawns[0].room;
 	}
 
 	getSources()
@@ -55,7 +54,7 @@ class RoomLinks
 	}
 }
 
-module.exports = function() 
+export function roomLinks()
 {
 	for ( let roomName in Game.rooms )
 	{
@@ -70,11 +69,11 @@ module.exports = function()
 		if ( room.memory.repairer == undefined )
 			room.memory.repairer = null;
 		
-		var spawn = Game.spawns[0];
+		var spawn = Game.spawns['My First Home'];
 
 		const roomLink = new RoomLinks(room);
 
-		let isHome = ( room == Game.spawns[0].room ) ? true : false;
+		let isHome = ( room == Game.spawns['My First Home'].room ) ? true : false;
 		if ( !isHome )
 		{
 			var creeps = room.find(FIND_MY_CREEPS);
@@ -139,7 +138,8 @@ module.exports = function()
 		}
 		
 		var sites = room.find(FIND_MY_CONSTRUCTION_SITES);
-		var repairables = room.find(FIND_STRUCTURES, { filter: (s) => s.hits < s.hitsMax });
+		var repairables = room.find(FIND_STRUCTURES, { filter: (s) => ( s.hits < s.hitsMax ) && ( s.structureType != STRUCTURE_WALL || s.structureType != STRUCTURE_RAMPART ) });
+		var walls = room.find(FIND_STRUCTURES, { filter: (s) => ( s.hits < 300000 ) && ( s.structureType == STRUCTURE_WALL || s.structureType == STRUCTURE_RAMPART ) });
 		// if no sites are found, clear the array
 		if ( sites.length == 0 )
 		{
@@ -165,6 +165,18 @@ module.exports = function()
 			for ( let repairable of repairables )
 			{
 				room.memory.repairables = repairables.map( repairable => repairable.id );
+			}
+		}
+
+		if ( walls.length == 0 )
+		{
+			room.memory.walls = [];
+		}
+		else if ( walls.length > 0 )
+		{
+			for ( let wall of walls )
+			{
+				room.memory.walls = walls.map( wall => wall.id )
 			}
 		}
 	}

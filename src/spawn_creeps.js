@@ -1,4 +1,5 @@
-const { Helpers } = require('./utilities');
+import {RoomLinks} from './roomlinks'
+import {Helpers} from './utilities'
 
 const stopSpawning = false;
 
@@ -24,6 +25,7 @@ StructureSpawn.prototype.determineBestCreepRole = function ( spawn, room )
 	var shuttles = _.filter(Game.creeps, (creep) => creep.memory.role == 'shuttle');
 	var ldminers = _.filter(Game.creeps, (creep) => creep.memory.role == 'ldminer');
 	var ldharvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'ldharvester');
+	var sources = room.find(FIND_SOURCES);
 
 	// Once I have 250 energy, I can dedicate a miner to the source, and leave the transferer to move the energy from the miner to the spawn
 	
@@ -37,7 +39,7 @@ StructureSpawn.prototype.determineBestCreepRole = function ( spawn, room )
 		{
 			creepToSpawn = 'transferer';
 		}
-		else if ( miners.length < 3 && transferers.length > 1 ) // we have 1 transferer, we can have a 2nd miner to harvest more energy
+		else if ( miners.length < ( sources.length * 2 ) && transferers.length > 1 ) // we have 1 transferer, we can have a 2nd miner to harvest more energy
 		{
 			creepToSpawn = 'miner';
 		}

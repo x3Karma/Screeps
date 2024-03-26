@@ -4,18 +4,19 @@ import roleBuilder from "./role.builder";
 import roleMiner from "./role.miner";
 import roleTransferer from "./role.transferer";
 import roleRepairer from "./role.repairer";
-import spawnCreeps from "./spawn_creeps";
+import "./spawn_creeps";
 import roleWallRepairer from "./role.wallrepairer";
 import roleShuttle from "./role.shuttle";
 import roleRecycle from "./role.recycle";
 import roleLDHarvester from "./role.ldharvester";
 import roleLDMiner from "./role.ldminer";
 import Traveler from "./traveler";
-import roomLinks from "./roomlinks";
+import { roomLinks, RoomLinks } from "./roomlinks";
 
 export function loop() {
 
-	for(var name in Memory.creeps) {
+	for ( var name in Memory.creeps ) 
+	{
 		if(!Game.creeps[name]) {
 			delete Memory.creeps[name];
 			console.log('Clearing non-existing creep memory:', name);
@@ -49,40 +50,42 @@ export function loop() {
 			{align: 'left', opacity: 0.8});
 	}
 
-	for(var name in Game.creeps) {
+	for (var name in Game.creeps) {
 		var creep = Game.creeps[name];
-		if(creep.memory.role == 'harvester') {
-			roleHarvester.run(creep);
-		}
-		if(creep.memory.role == 'upgrader') {
-			roleUpgrader.run(creep);
-		}
-		if(creep.memory.role == 'builder') {
-			roleBuilder.run(creep);
-		}
-		if ( creep.memory.role == 'miner' ) {
-			roleMiner.run(creep);
-		}
-		if ( creep.memory.role == 'transferer' ) {
-			roleTransferer.run(creep);
-		}
-		if ( creep.memory.role == 'repairer' ) {
-			roleRepairer.run(creep);
-		}
-		if ( creep.memory.role == 'wallrepairer' ) {
-			roleWallRepairer.run(creep);
-		}
-		if ( creep.memory.role == 'shuttle' ) {
-			roleShuttle.run(creep);
-		}
-		if ( creep.memory.role == 'recycle' ) {
-			roleRecycle.run(creep);
-		}
-		if ( creep.memory.role == 'ldharvester' ) {
-			roleLDHarvester.run(creep);
-		}
-		if ( creep.memory.role == 'ldminer' ) {
-			roleLDMiner.run(creep);
+		switch (creep.memory.role) {
+			case 'harvester':
+				roleHarvester.run(creep);
+				break;
+			case 'upgrader':
+				roleUpgrader.run(creep);
+				break;
+			case 'builder':
+				roleBuilder.run(creep);
+				break;
+			case 'miner':
+				roleMiner.run(creep);
+				break;
+			case 'transferer':
+				roleTransferer.run(creep);
+				break;
+			case 'repairer':
+				roleRepairer.run(creep);
+				break;
+			case 'wallrepairer':
+				roleWallRepairer.run(creep);
+				break;
+			case 'shuttle':
+				roleShuttle.run(creep);
+				break;
+			case 'recycle':
+				roleRecycle.run(creep);
+				break;
+			case 'ldharvester':
+				roleLDHarvester.run(creep);
+				break;
+			case 'ldminer':
+				roleLDMiner.run(creep);
+				break;
 		}
 
 		/* if ( creep.name == 'Upgrader56629013' )
